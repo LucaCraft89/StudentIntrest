@@ -2,10 +2,12 @@
 const ENV = {
   isExtension:
     typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id,
-  // Set this to your proxy URL when deploying the website
-  // For Docker: http://localhost:3000 (or your server IP/domain)
-  // For Cloudflare Workers: https://your-worker.workers.dev
-  proxyUrl: "http://localhost:3000",
+  // Automatically detect proxy URL based on current location
+  // Uses /api/ path which works through Cloudflare tunnel or nginx proxy
+  proxyUrl:
+    typeof window !== "undefined"
+      ? `${window.location.protocol}//${window.location.host}/api`
+      : "http://localhost:3000",
 };
 
 // API Configuration
