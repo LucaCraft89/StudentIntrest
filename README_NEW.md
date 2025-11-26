@@ -36,7 +36,7 @@ Calculate your ClasseViva grade averages on **any platform**: browser extension 
 
 ```bash
 cp .env.example .env
-docker-compose up -d
+docker compose up -d
 ```
 
 Access at http://localhost:8080

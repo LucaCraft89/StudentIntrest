@@ -4,7 +4,7 @@
 function getColorClass(value) {
   if (value < 5) return "danger";
   if (value >= 5 && value < 6) return "warning";
-  return "success";
+  return "good";
 }
 
 // Display grades
@@ -13,9 +13,7 @@ function displayGrades(gradesAvr) {
   const overallAvg = gradesAvr.all_avr;
   const overallAvgElement = document.getElementById("overallAverage");
   overallAvgElement.textContent = overallAvg.toFixed(1);
-  overallAvgElement.className = `overall-average text-${getColorClass(
-    overallAvg
-  )}`;
+  overallAvgElement.className = `overall-average ${getColorClass(overallAvg)}`;
 
   // Display grades by period
   const gradesContent = document.getElementById("gradesContent");
@@ -36,7 +34,7 @@ function displayGrades(gradesAvr) {
     periodSection.appendChild(periodTitle);
 
     const periodAverage = document.createElement("div");
-    periodAverage.className = `period-average text-${getColorClass(periodAvr)}`;
+    periodAverage.className = `period-average ${getColorClass(periodAvr)}`;
     periodAverage.textContent = periodAvr.toFixed(1);
     periodSection.appendChild(periodAverage);
 
@@ -65,7 +63,7 @@ function displayGrades(gradesAvr) {
       avgContainer.className = "average-container";
 
       const avgCell = document.createElement("div");
-      avgCell.className = `subject-average text-${getColorClass(data.avr)}`;
+      avgCell.className = `subject-average ${getColorClass(data.avr)}`;
       avgCell.textContent = data.avr.toFixed(1);
       avgContainer.appendChild(avgCell);
 

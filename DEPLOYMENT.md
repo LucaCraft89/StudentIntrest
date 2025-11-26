@@ -27,7 +27,7 @@ Choose the best deployment method for your needs.
 
 ```bash
 cp .env.example .env
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Cost
@@ -40,7 +40,7 @@ docker-compose up -d
 ### Scaling
 
 ```bash
-docker-compose up -d --scale proxy=3  # Run 3 proxy instances
+docker compose up -d --scale proxy=3  # Run 3 proxy instances
 ```
 
 ---
@@ -203,7 +203,7 @@ Start with Cloudflare Workers, migrate to Docker when needed:
 Use Docker locally:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### For Production

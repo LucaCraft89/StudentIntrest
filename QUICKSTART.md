@@ -9,7 +9,7 @@ Get your ClasseViva calculator running on iOS in 5 minutes.
 cp .env.example .env
 
 # Start everything
-docker-compose up -d
+docker compose up -d
 
 # Access at http://localhost:8080
 ```

@@ -15,12 +15,12 @@ if ! docker info > /dev/null 2>&1; then
 fi
 echo "✅ Docker is running"
 
-# Check if docker-compose is available
-if ! command -v docker-compose &> /dev/null; then
-    echo "❌ docker-compose not found. Please install it."
+# Check if docker compose is available
+if ! command -v docker compose &> /dev/null; then
+    echo "❌ docker compose not found. Please install it."
     exit 1
 fi
-echo "✅ docker-compose is available"
+echo "✅ docker compose is available"
 
 # Check for .env file
 if [ ! -f .env ]; then
@@ -34,11 +34,11 @@ fi
 # Build and start services
 echo ""
 echo "🔨 Building Docker images..."
-docker-compose build
+docker compose build
 
 echo ""
 echo "🚀 Starting services..."
-docker-compose up -d
+docker compose up -d
 
 # Wait for services to be healthy
 echo ""
@@ -52,7 +52,7 @@ if curl -f http://localhost:3000/health > /dev/null 2>&1; then
     echo "✅ Proxy is healthy"
 else
     echo "❌ Proxy health check failed"
-    docker-compose logs proxy
+    docker compose logs proxy
     exit 1
 fi
 
@@ -63,14 +63,14 @@ if curl -f http://localhost:8080/health > /dev/null 2>&1; then
     echo "✅ Web service is healthy"
 else
     echo "❌ Web health check failed"
-    docker-compose logs web
+    docker compose logs web
     exit 1
 fi
 
 # Show status
 echo ""
 echo "📊 Service Status:"
-docker-compose ps
+docker compose ps
 
 echo ""
 echo "✅ All tests passed!"
@@ -82,9 +82,9 @@ echo "   - Web App: http://localhost:8080"
 echo "   - Proxy API: http://localhost:3000"
 echo ""
 echo "📝 Useful commands:"
-echo "   - View logs: docker-compose logs -f"
-echo "   - Stop services: docker-compose down"
-echo "   - Restart: docker-compose restart"
+echo "   - View logs: docker compose logs -f"
+echo "   - Stop services: docker compose down"
+echo "   - Restart: docker compose restart"
 echo ""
 echo "🔧 Next steps:"
 echo "   1. Update shared/config.js with your proxy URL"

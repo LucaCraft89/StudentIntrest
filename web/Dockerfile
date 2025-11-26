@@ -1,11 +1,13 @@
 FROM nginx:alpine
 
-# Copy web files
-COPY index.html /usr/share/nginx/html/
-COPY ../shared/ /usr/share/nginx/html/shared/
+WORKDIR /usr/share/nginx/html
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy web files from build context root
+COPY web/index.html .
+COPY web/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy shared files
+COPY shared ./shared
 
 # Expose port
 EXPOSE 80

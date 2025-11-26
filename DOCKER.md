@@ -9,7 +9,7 @@ Run the CVV Average Calculator in Docker containers for easy deployment and scal
 cp .env.example .env
 
 # 2. Start everything
-docker-compose up -d
+docker compose up -d
 
 # 3. Access the app
 # Web: http://localhost:8080
@@ -50,19 +50,19 @@ CORS_ORIGIN=*      # Change to your domain in production
 
 ```bash
 # Start services
-docker-compose up -d
+docker compose up -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop services
-docker-compose down
+docker compose down
 
 # Rebuild after changes
-docker-compose up -d --build
+docker compose up -d --build
 
 # Check status
-docker-compose ps
+docker compose ps
 ```
 
 ### With Reverse Proxy (Optional)
@@ -71,7 +71,7 @@ If you want everything on one domain (web + API):
 
 ```bash
 # Start with nginx reverse proxy
-docker-compose --profile with-proxy up -d
+docker compose --profile with-proxy up -d
 
 # Now access:
 # - Web app: http://localhost/
@@ -103,7 +103,7 @@ NGINX_PORT=80
 Use Caddy (automatic HTTPS):
 
 ```yaml
-# docker-compose.prod.yml
+# docker compose.prod.yml
 services:
   caddy:
     image: caddy:alpine
@@ -135,7 +135,7 @@ yourdomain.com {
 ### 3. Deploy
 
 ```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+docker compose -f docker compose.yml -f docker compose.prod.yml up -d
 ```
 
 ## Scaling
@@ -144,7 +144,7 @@ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 ```bash
 # Run 3 proxy instances
-docker-compose up -d --scale proxy=3
+docker compose up -d --scale proxy=3
 
 # Nginx will load balance automatically
 ```
@@ -153,7 +153,7 @@ docker-compose up -d --scale proxy=3
 
 ```bash
 # Build images
-docker-compose build
+docker compose build
 
 # Push to registry
 docker tag cvv-proxy:latest registry.example.com/cvv-proxy:latest
@@ -165,7 +165,7 @@ kubectl apply -f k8s/
 
 ## Resource Limits
 
-Add to `docker-compose.yml`:
+Add to `docker compose.yml`:
 
 ```yaml
 services:
@@ -197,14 +197,14 @@ curl http://localhost:8080/health  # Web
 
 ```bash
 # All logs
-docker-compose logs -f
+docker compose logs -f
 
 # Specific service
-docker-compose logs -f proxy
-docker-compose logs -f web
+docker compose logs -f proxy
+docker compose logs -f web
 
 # Last 100 lines
-docker-compose logs --tail=100
+docker compose logs --tail=100
 ```
 
 ### Docker Stats
@@ -219,11 +219,11 @@ docker stats cvv-proxy cvv-web
 
 ```bash
 # Check logs
-docker-compose logs
+docker compose logs
 
 # Rebuild
-docker-compose down
-docker-compose up -d --build
+docker compose down
+docker compose up -d --build
 ```
 
 ### Port already in use
@@ -237,14 +237,14 @@ WEB_PORT=8081
 ### CORS errors
 
 1. Check `CORS_ORIGIN` in `.env`
-2. Restart: `docker-compose restart proxy`
-3. Verify in logs: `docker-compose logs proxy`
+2. Restart: `docker compose restart proxy`
+3. Verify in logs: `docker compose logs proxy`
 
 ### Can't connect to proxy from web
 
 ```bash
 # Make sure proxy URL is correct
-# If using docker-compose, use service name:
+# If using docker compose, use service name:
 # http://proxy:3000 (internal)
 # http://localhost:3000 (external)
 ```
@@ -268,7 +268,7 @@ python3 -m http.server 8080
 
 ```bash
 # Edit files, then:
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## Deployment Platforms
@@ -338,18 +338,18 @@ fly launch
 - [ ] Use HTTPS in production
 - [ ] Set up rate limiting (nginx or proxy level)
 - [ ] Use environment variables for sensitive data
-- [ ] Regular security updates: `docker-compose pull && docker-compose up -d`
+- [ ] Regular security updates: `docker compose pull && docker compose up -d`
 - [ ] Monitor logs for suspicious activity
 
 ## Clean Up
 
 ```bash
 # Stop and remove containers
-docker-compose down
+docker compose down
 
 # Remove images
-docker-compose down --rmi all
+docker compose down --rmi all
 
 # Remove volumes (careful!)
-docker-compose down -v
+docker compose down -v
 ```

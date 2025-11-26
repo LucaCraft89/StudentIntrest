@@ -171,6 +171,19 @@
         font-size: 48px;
         font-weight: bold;
         margin: 20px 0;
+        color: white;
+      }
+
+      .overall-average.good {
+        color: #28a745;
+      }
+
+      .overall-average.warning {
+        color: #ffc107;
+      }
+
+      .overall-average.danger {
+        color: #dc3545;
       }
 
       .period-section {
@@ -192,13 +205,31 @@
         font-size: 28px;
         font-weight: bold;
         margin-bottom: 15px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        display: inline-block;
+      }
+
+      .period-average.good {
+        background-color: #d4edda;
+        color: #155724;
+      }
+
+      .period-average.warning {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+
+      .period-average.danger {
+        background-color: #f8d7da;
+        color: #721c24;
       }
 
       .subject-row {
         padding: 10px;
         margin-bottom: 10px;
         border-radius: 8px;
-        background: white;
+        background: #f8f9fa;
         border: 2px solid #e0e0e0;
         display: grid;
         grid-template-columns: 1fr;
@@ -222,6 +253,22 @@
       @media (max-width: 480px) {
         .average-container > * {
           flex: 1 1 100%;
+        }
+
+        .header h1 {
+          font-size: 20px;
+        }
+
+        .overall-average {
+          font-size: 36px;
+        }
+
+        .period-average {
+          font-size: 24px;
+        }
+
+        .subject-row {
+          padding: 8px;
         }
       }
 
@@ -287,29 +334,19 @@
         margin-top: 5px;
       }
 
-      .subject-average.text-success {
+      .subject-average.good {
         background-color: #28a745;
+        color: white;
       }
 
-      .subject-average.text-warning {
+      .subject-average.warning {
         background-color: #ffc107;
         color: #333;
       }
 
-      .subject-average.text-danger {
+      .subject-average.danger {
         background-color: #dc3545;
-      }
-
-      .text-success {
-        color: #28a745;
-      }
-
-      .text-warning {
-        color: #ffc107;
-      }
-
-      .text-danger {
-        color: #dc3545;
+        color: white;
       }
 
       .bg-success {

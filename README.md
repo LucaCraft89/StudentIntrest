@@ -16,7 +16,7 @@ Choose your deployment method:
 
 ```bash
 cp .env.example .env
-docker-compose up -d
+docker compose up -d
 # Access at http://localhost:8080
 ```
 
@@ -62,7 +62,7 @@ cd proxy && wrangler deploy
 ├── shared/             # Shared code (API, logic, UI)
 ├── web/                # Website (iOS compatible)
 ├── proxy/              # CORS proxy (Node.js + Cloudflare Workers)
-├── docker-compose.yml  # Docker orchestration
+├── docker compose.yml  # Docker orchestration
 └── Dockerfiles         # Container definitions
 ```
 
@@ -72,19 +72,19 @@ cd proxy && wrangler deploy
 
 ```bash
 # Quick start
-docker-compose up -d
+docker compose up -d
 
 # With custom ports
-PROXY_PORT=3001 WEB_PORT=8081 docker-compose up -d
+PROXY_PORT=3001 WEB_PORT=8081 docker compose up -d
 
 # Scale proxy for high traffic
-docker-compose up -d --scale proxy=3
+docker compose up -d --scale proxy=3
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop
-docker-compose down
+docker compose down
 ```
 
 See **[DOCKER.md](DOCKER.md)** for production setup, SSL, monitoring, and more.
@@ -124,7 +124,7 @@ Docker with Kubernetes - auto-scaling, custom domain
 ./test-docker.sh
 
 # Or manually
-docker-compose up -d
+docker compose up -d
 curl http://localhost:3000/health
 curl http://localhost:8080/health
 ```
@@ -139,7 +139,7 @@ npm run dev:proxy-node  # Node.js proxy
 npm run dev:web         # Web server
 
 # Docker development
-docker-compose up       # Watch logs
+docker compose up       # Watch logs
 
 # Build extension
 npm run build:extension
