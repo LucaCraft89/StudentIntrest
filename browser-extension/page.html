@@ -3,10 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Calculate your ClasseViva grade averages - Works on iOS, Android, and Desktop"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <title>CVV Average Calculator - Extension</title>
 
-    <!-- Bootstrap CSS (Local) -->
-    <link href="bootstrap.min.css" rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <style>
       body {
@@ -48,8 +58,8 @@
     <div class="container">
       <!-- Header -->
       <div class="text-center text-white mb-4">
-        <h1 class="display-5 fw-bold">📊 CVV Average Calculator</h1>
-        <p class="lead">Browser Extension - 100% Client-Side</p>
+        <h1 class="display-5 fw-bold">CVV Average Calculator</h1>
+        <p class="lead">Web Version - Works on iOS, Android & Desktop</p>
       </div>
 
       <!-- Login Page -->
@@ -60,11 +70,17 @@
               <div class="card-body p-4">
                 <h2 class="card-title mb-3">Login to ClasseViva</h2>
 
+                <div class="alert alert-info" role="alert">
+                  <strong><i class="bi bi-phone"></i> iOS Users:</strong><br />
+                  You can add this to your home screen! Tap the Share button and
+                  select "Add to Home Screen".
+                </div>
+
                 <div
                   id="errorMessage"
                   class="alert alert-danger"
                   style="display: none"
-                ></div>
+                  role="alert"
                 ></div>
 
                 <form id="loginForm">
@@ -113,10 +129,10 @@
       </div>
 
       <!-- Grades Page -->
-      <div id="gradesPage" style="display: none">
+      <div id="gradesPage" style="display: none;">
         <div class="text-center mb-4">
           <button id="logoutButton" class="btn btn-secondary">
-            ← Logout
+            <i class="bi bi-box-arrow-right"></i> Logout
           </button>
         </div>
 
@@ -154,8 +170,8 @@
       </div>
     </div>
 
-    <!-- Bootstrap JS (Local) -->
-    <script src="bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 
     <!-- Load modules -->
     <script src="config.js"></script>
