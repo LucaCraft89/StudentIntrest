@@ -3,460 +3,139 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CVV Average Calculator</title>
+    <meta name="description" content="Calculate your ClasseViva grade averages - Works on iOS, Android, and Desktop" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <title>CVV Average Calculator - Extension</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
       body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          "Helvetica Neue", Arial, sans-serif;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
-        padding: 10px;
+        padding: 20px 0;
       }
-
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      .header {
-        text-align: center;
-        color: white;
-        margin-bottom: 20px;
-      }
-
-      .header h1 {
-        font-size: 24px;
-        margin-bottom: 5px;
-      }
-
-      .header p {
-        font-size: 12px;
-        opacity: 0.9;
-      }
-
-      .card {
-        background: white;
-        border-radius: 12px;
-        padding: 15px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        margin-bottom: 15px;
-      }
-
-      h2 {
-        margin-bottom: 15px;
-        color: #333;
-        font-size: 20px;
-      }
-
-      .form-group {
-        margin-bottom: 15px;
-      }
-
-      label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 500;
-        color: #555;
-        font-size: 14px;
-      }
-
-      input {
-        width: 100%;
-        padding: 10px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 14px;
-        transition: border-color 0.3s;
-      }
-
-      input:focus {
-        outline: none;
-        border-color: #667eea;
-      }
-
-      button {
-        width: 100%;
-        padding: 12px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 600;
-        transition: transform 0.2s, box-shadow 0.2s;
-      }
-
-      button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-      }
-
-      button:disabled {
-        background: #ccc;
-        cursor: not-allowed;
-        transform: none;
-      }
-
-      .spinner {
-        display: none;
-        width: 20px;
-        height: 20px;
-        border: 3px solid #f3f3f3;
-        border-top: 3px solid #667eea;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin: 0 auto;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      button.loading .spinner {
-        display: inline-block;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-
-      .alert {
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        display: none;
-      }
-
-      .alert-danger {
-        background-color: #fee;
-        color: #c33;
-        border: 1px solid #fcc;
-      }
-
-      #loginPage {
-        display: block;
-      }
-
-      #gradesPage {
-        display: none;
-      }
-
-      .overall-average {
-        text-align: center;
-        font-size: 48px;
-        font-weight: bold;
-        margin: 20px 0;
-      }
-
-      .period-section {
-        margin-bottom: 15px;
-        background: white;
-        border-radius: 12px;
-        padding: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      }
-
-      .period-title {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #333;
-      }
-
-      .period-average {
-        font-size: 28px;
-        font-weight: bold;
-        margin-bottom: 15px;
-      }
-
-      .subject-row {
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 8px;
-        background: white;
-        border: 2px solid #e0e0e0;
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 8px;
-        transition: border-color 0.3s, box-shadow 0.3s;
-      }
-
-      .average-container {
-        display: flex;
-        gap: 8px;
-        align-items: stretch;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-
-      .average-container > * {
-        flex: 1 1 auto;
-        min-width: 100px;
-      }
-
-      @media (max-width: 480px) {
-        .average-container > * {
-          flex: 1 1 100%;
-        }
-      }
-
-      .subject-row:hover {
-        border-color: #667eea;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-      }
-
-      .subject-name {
-        font-weight: 600;
-        font-size: 14px;
-        color: #333;
-        margin-bottom: 5px;
-      }
-
-      .grades {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
+      
       .grade-badge {
-        display: inline-block;
-        padding: 6px 10px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 13px;
-        color: white;
         cursor: pointer;
         transition: transform 0.2s;
       }
-
+      
       .grade-badge:hover {
         transform: scale(1.1);
       }
-
-      .subject-average {
+      
+      .overall-average {
+        font-size: 4rem;
         font-weight: bold;
-        font-size: 18px;
-        text-align: center;
-        padding: 12px 15px;
-        border-radius: 8px;
-        color: white;
-        margin-top: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
       }
-
-      .needed-grade {
-        font-size: 18px;
-        padding: 12px 15px;
-        border-radius: 8px;
-        background-color: #17a2b8;
-        color: white;
+      
+      .period-average {
+        font-size: 2rem;
         font-weight: bold;
-        white-space: nowrap;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 48px;
-        margin-top: 5px;
       }
-
-      .subject-average.text-success {
-        background-color: #28a745;
-      }
-
-      .subject-average.text-warning {
-        background-color: #ffc107;
-        color: #333;
-      }
-
-      .subject-average.text-danger {
-        background-color: #dc3545;
-      }
-
-      .bg-success {
-        background-color: #28a745;
-      }
-
-      .bg-warning {
-        background-color: #ffc107;
-        color: #000;
-      }
-
-      .bg-danger {
-        background-color: #dc3545;
-      }
-
-      /* Text color classes removed - using background colors on averages instead */
-
-      .logout-btn {
-        max-width: 200px;
-        margin: 0 auto 30px;
-        display: block;
-        background: #6c757d;
-      }
-
-      .logout-btn:hover {
-        background: #5a6268;
-      }
-
-      /* Modal styles */
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-      }
-
-      .modal.show {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .modal-content {
-        background: white;
-        border-radius: 12px;
-        padding: 30px;
-        max-width: 500px;
-        width: 90%;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-      }
-
-      .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-
-      .modal-title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-      }
-
-      .close-btn {
-        background: none !important;
-        border: none !important;
-        font-size: 32px;
-        cursor: pointer;
-        color: #999;
-        padding: 0 !important;
-        width: auto !important;
-        min-width: auto !important;
-        line-height: 1;
-      }
-
-      .close-btn:hover {
-        color: #333 !important;
-        transform: none !important;
-        box-shadow: none !important;
-      }
-
-      .modal-body {
-        color: #555;
-      }
-
-      .modal-body p {
-        margin-bottom: 10px;
-        line-height: 1.5;
-        font-size: 14px;
-      }
-
-      .modal-body strong {
-        color: #333;
-        display: inline-block;
-        min-width: 100px;
-        font-size: 14px;
+      
+      @media (max-width: 576px) {
+        .overall-average {
+          font-size: 2.5rem;
+        }
+        .period-average {
+          font-size: 1.5rem;
+        }
       }
     </style>
   </head>
   <body>
     <div class="container">
-      <div class="header">
-        <h1>CVV Average Calculator</h1>
-        <p>100% Client-Side Grade Average Calculations</p>
+      <!-- Header -->
+      <div class="text-center text-white mb-4">
+        <h1 class="display-5 fw-bold">CVV Average Calculator</h1>
+        <p class="lead">Web Version - Works on iOS, Android & Desktop</p>
       </div>
 
       <!-- Login Page -->
       <div id="loginPage">
-        <div class="card">
-          <h2>Login to ClasseViva</h2>
-          <div id="errorMessage" class="alert alert-danger"></div>
-          <form id="loginForm">
-            <div class="form-group">
-              <label for="user_id">User ID:</label>
-              <input
-                type="text"
-                id="user_id"
-                name="user_id"
-                required
-                autofocus
-                placeholder="Enter your User ID"
-              />
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg">
+              <div class="card-body p-4">
+                <h2 class="card-title mb-3">Login to ClasseViva</h2>
+                
+                <div class="alert alert-info" role="alert">
+                  <strong><i class="bi bi-phone"></i> iOS Users:</strong><br>
+                  You can add this to your home screen! Tap the Share button and select "Add to Home Screen".
+                </div>
+                
+                <div id="errorMessage" class="alert alert-danger" style="display:none" role="alert"></div>
+                
+                <form id="loginForm">
+                  <div class="mb-3">
+                    <label for="user_id" class="form-label">User ID:</label>
+                    <input type="text" class="form-control" id="user_id" name="user_id" required autofocus placeholder="Enter your User ID" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="user_pass" class="form-label">Password:</label>
+                    <input type="password" class="form-control" id="user_pass" name="user_pass" required placeholder="Enter your password" />
+                  </div>
+                  <button type="submit" id="loginButton" class="btn btn-primary w-100">
+                    <span id="loginSpinner" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display:none"></span>
+                    <span class="button-text">Login</span>
+                  </button>
+                </form>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="user_pass">Password:</label>
-              <input
-                type="password"
-                id="user_pass"
-                name="user_pass"
-                required
-                placeholder="Enter your password"
-              />
-            </div>
-            <button type="submit" id="loginButton">
-              <span class="spinner"></span>
-              <span class="button-text">Login</span>
-            </button>
-          </form>
+          </div>
         </div>
       </div>
 
       <!-- Grades Page -->
-      <div id="gradesPage">
-        <button class="logout-btn" onclick="logout()">Logout</button>
-        <div class="card">
-          <h2>Your Grade Averages</h2>
-          <div class="overall-average" id="overallAverage"></div>
+      <div id="gradesPage" style="display:none">
+        <div class="text-center mb-4">
+          <button class="btn btn-secondary" onclick="logout()">
+            <i class="bi bi-box-arrow-left"></i> Logout
+          </button>
         </div>
+        
+        <div class="card shadow-lg mb-4">
+          <div class="card-body text-center">
+            <h2 class="card-title">Your Grade Averages</h2>
+            <div id="overallAverage" class="overall-average"></div>
+          </div>
+        </div>
+        
         <div id="gradesContent"></div>
       </div>
     </div>
 
     <!-- Grade Details Modal -->
-    <div id="gradeModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">Grade Details</h3>
-          <button class="close-btn" onclick="closeModal()">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Grade:</strong> <span id="modalGrade"></span></p>
-          <p><strong>Date:</strong> <span id="modalDate"></span></p>
-          <p><strong>Component:</strong> <span id="modalComponent"></span></p>
-          <p><strong>Teacher:</strong> <span id="modalTeacher"></span></p>
-          <p><strong>Notes:</strong> <span id="modalNotes"></span></p>
+    <div class="modal fade" id="gradeModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Grade Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <p><strong>Grade:</strong> <span id="modalGrade"></span></p>
+            <p><strong>Date:</strong> <span id="modalDate"></span></p>
+            <p><strong>Component:</strong> <span id="modalComponent"></span></p>
+            <p><strong>Teacher:</strong> <span id="modalTeacher"></span></p>
+            <p><strong>Notes:</strong> <span id="modalNotes"></span></p>
+          </div>
         </div>
       </div>
     </div>
 
-    <script src="app.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Load shared scripts -->
+    <script src="../shared/config.js"></script>
+    <script src="../shared/api.js"></script>
+    <script src="../shared/calculator.js"></script>
+    <script src="../shared/ui-bootstrap.js"></script>
   </body>
 </html>
