@@ -13,6 +13,9 @@ services:
       - API_KEY=${API_KEY:-Tg1NWEwNGIgIC0K}
       - CORS_ORIGIN=${CORS_ORIGIN:-*}
       - NODE_ENV=production
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     healthcheck:
       test:
         [

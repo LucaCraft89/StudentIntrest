@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Calculate your ClasseViva grade averages - Works on iOS, Android, and Desktop"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>CVV Average Calculator - Web Version</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px 0;
+      }
+      
+      .grade-badge {
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      
+      .grade-badge:hover {
+        transform: scale(1.1);
+      }
+      
+      .overall-average {
+        font-size: 4rem;
+        font-weight: bold;
+      }
+      
+      .period-average {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+      
+      @media (max-width: 576px) {
+        .overall-average {
+          font-size: 2.5rem;
+        }
+        .period-average {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>CVV Average Calculator</h1>
+        <p>Web Version - Works on iOS, Android & Desktop</p>
+      </div>
+
+      <!-- Login Page -->
+      <div id="loginPage">
+        <div class="card">
+          <h2>Login to ClasseViva</h2>
+
+          <div class="info-banner">
+            <strong>📱 iOS Users:</strong>
+            You can add this to your home screen for an app-like experience! Tap
+            the Share button and select "Add to Home Screen".
+          </div>
+
+          <div id="errorMessage" class="alert alert-danger"></div>
+          <form id="loginForm">
+            <div class="form-group">
+              <label for="user_id">User ID:</label>
+              <input
+                type="text"
+                id="user_id"
+                name="user_id"
+                required
+                autofocus
+                placeholder="Enter your User ID"
+              />
+            </div>
+            <div class="form-group">
+              <label for="user_pass">Password:</label>
+              <input
+                type="password"
+                id="user_pass"
+                name="user_pass"
+                required
+                placeholder="Enter your password"
+              />
+            </div>
+            <button type="submit" id="loginButton">
+              <span class="spinner"></span>
+              <span class="button-text">Login</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Grades Page -->
+      <div id="gradesPage">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="card">
+          <h2>Your Grade Averages</h2>
+          <div class="overall-average" id="overallAverage"></div>
+        </div>
+        <div id="gradesContent"></div>
+      </div>
+    </div>
+
+    <!-- Grade Details Modal -->
+    <div id="gradeModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Grade Details</h3>
+          <button class="close-btn" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Grade:</strong> <span id="modalGrade"></span></p>
+          <p><strong>Date:</strong> <span id="modalDate"></span></p>
+          <p><strong>Component:</strong> <span id="modalComponent"></span></p>
+          <p><strong>Teacher:</strong> <span id="modalTeacher"></span></p>
+          <p><strong>Notes:</strong> <span id="modalNotes"></span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Load shared scripts -->
+    <script src="../shared/config.js"></script>
+    <script src="../shared/api.js"></script>
+    <script src="../shared/calculator.js"></script>
+    <script src="../shared/ui.js"></script>
+  </body>
+</html>

@@ -50,6 +50,8 @@ app.all("*", async (req, res) => {
       method: req.method,
       headers: headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
+      // Add DNS and connection options for Docker
+      signal: AbortSignal.timeout(10000), // 10 second timeout
     });
 
     const data = await response.json();
@@ -57,8 +59,11 @@ app.all("*", async (req, res) => {
     res.status(response.status).json(data);
   } catch (error) {
     console.error("Proxy error:", error);
+    console.error("Target URL:", targetUrl);
+    console.error("Error details:", error.cause || error);
     res.status(500).json({
       error: error.message,
+      cause: error.cause?.code || null,
       timestamp: new Date().toISOString(),
     });
   }
