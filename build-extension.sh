@@ -22,11 +22,23 @@ cp -v "$SHARED_DIR/api.js" "$EXT_DIR/"
 cp -v "$SHARED_DIR/calculator.js" "$EXT_DIR/"
 cp -v "$SHARED_DIR/ui-bootstrap.js" "$EXT_DIR/"
 
+echo "📦 Downloading Bootstrap locally for CSP compliance..."
+# Download Bootstrap and Bootstrap Icons locally (required for extension CSP)
+curl -sL https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css -o "$EXT_DIR/bootstrap.min.css"
+curl -sL https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js -o "$EXT_DIR/bootstrap.bundle.min.js"
+curl -sL https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css -o "$EXT_DIR/bootstrap-icons.min.css"
+echo "   ✓ Bootstrap files downloaded"
+
 echo "🎨 Creating extension page.html from web index.html..."
 # Read the web index.html and modify it for extension use
 cat "$WEB_DIR/index.html" | \
   # Change title
   sed 's/<title>.*<\/title>/<title>CVV Average Calculator - Extension<\/title>/' | \
+  # Replace CDN Bootstrap CSS with local files
+  sed 's|<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">|<link href="bootstrap.min.css" rel="stylesheet">|' | \
+  sed 's|<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">|<link rel="stylesheet" href="bootstrap-icons.min.css">|' | \
+  # Replace CDN Bootstrap JS with local file
+  sed 's|<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>|<script src="bootstrap.bundle.min.js"><\/script>|' | \
   # Update script tags to load from same directory (not shared/)
   sed 's|<script src="shared/config.js"></script>|<script src="config.js"><\/script>|' | \
   sed 's|<script src="shared/api.js"></script>|<script src="api.js"><\/script>|' | \
@@ -51,6 +63,9 @@ echo "✅ Extension build complete!"
 echo ""
 echo "📂 Extension files in: $EXT_DIR"
 echo "   - page.html (main UI)"
+echo "   - bootstrap.min.css (Bootstrap CSS - local)"
+echo "   - bootstrap.bundle.min.js (Bootstrap JS - local)"
+echo "   - bootstrap-icons.min.css (Bootstrap Icons - local)"
 echo "   - config.js (environment config)"
 echo "   - api.js (API calls)"
 echo "   - calculator.js (grade calculations)"
