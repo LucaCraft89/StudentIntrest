@@ -8,28 +8,36 @@ async function login(userId, userPass) {
     uid: userId,
   };
 
-  const response = await apiFetch("/auth/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await apiFetch("/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
 
-  if (!response.ok) {
-    let errorMsg = `Login failed: ${response.status} ${response.statusText}`;
-    try {
-      const errorData = await response.json();
-      if (errorData.error) {
-        errorMsg += ` - ${errorData.error}`;
+    if (!response.ok) {
+      let errorMsg = `Login failed: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        if (errorData.error) {
+          errorMsg += ` - ${errorData.error}`;
+        }
+      } catch (e) {
+        // Ignore JSON parse errors
       }
-    } catch (e) {
-      // Ignore JSON parse errors
+      throw new Error(errorMsg);
     }
-    throw new Error(errorMsg);
-  }
 
-  return await response.json();
+    return await response.json();
+  } catch (error) {
+    // Check for network errors
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Network error: Cannot connect to server. Check your internet connection or Cloudflare tunnel configuration.');
+    }
+    throw error;
+  }
 }
 
 // Get grades function

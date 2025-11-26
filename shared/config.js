@@ -24,7 +24,9 @@ function getApiUrl(endpoint) {
     return `${API_CONFIG.BASE_URL}${endpoint}`;
   } else {
     // Website must use proxy
-    return `${ENV.proxyUrl}${endpoint}`;
+    const url = `${ENV.proxyUrl}${endpoint}`;
+    console.log('[API] Request URL:', url);
+    return url;
   }
 }
 
