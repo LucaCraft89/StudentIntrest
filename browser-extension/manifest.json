@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "CVV Average Calculator",
+    "version": "1.0.0",
+    "description": "Calculate grade averages from ClasseViva - 100% client-side processing",
+    "permissions": [
+        "storage",
+        "declarativeNetRequest"
+    ],
+    "host_permissions": [
+        "https://web.spaggiari.eu/*"
+    ],
+    "action": {
+        "default_title": "CVV Average Calculator"
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "declarative_net_request": {
+        "rule_resources": [
+            {
+                "id": "ruleset_1",
+                "enabled": true,
+                "path": "rules.json"
+            }
+        ]
+    },
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    }
+}

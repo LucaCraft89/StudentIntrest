@@ -1,0 +1,32 @@
+{
+    "name": "cvv-average-calculator",
+    "version": "2.0.0",
+    "description": "ClasseViva grade average calculator - Browser extension + Web version (iOS compatible)",
+    "scripts": {
+        "dev:web": "cd web && python3 -m http.server 8080",
+        "dev:proxy": "cd proxy && wrangler dev",
+        "deploy:proxy": "cd proxy && wrangler deploy",
+        "build:extension": "npm run copy:extension",
+        "copy:extension": "cp -r shared/* browser-extension/ && echo 'Extension files updated'",
+        "lint": "echo 'No linting configured yet'",
+        "test": "echo 'No tests configured yet'"
+    },
+    "keywords": [
+        "classeviva",
+        "grades",
+        "calculator",
+        "spaggiari",
+        "browser-extension",
+        "ios",
+        "pwa"
+    ],
+    "author": "LucaCraft89",
+    "license": "MIT",
+    "devDependencies": {
+        "wrangler": "^3.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/LucaCraft89/StudentIntrest"
+    }
+}

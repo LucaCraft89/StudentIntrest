@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "requestHeaders": [
+                {
+                    "header": "User-Agent",
+                    "operation": "set",
+                    "value": "CVVS/std/4.1.7 Android/10"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "https://web.spaggiari.eu/*",
+            "resourceTypes": [
+                "xmlhttprequest"
+            ]
+        }
+    }
+]

@@ -1,0 +1,12 @@
+# Cloudflare Workers configuration
+name = "spaggiari-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Account details (get these from Cloudflare dashboard)
+# account_id = "your-account-id"
+# workers_dev = true
+
+# For custom domain (optional)
+# route = "https://api.yourdomain.com/*"
+# zone_id = "your-zone-id"
