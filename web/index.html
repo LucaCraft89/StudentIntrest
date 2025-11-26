@@ -3,41 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Calculate your ClasseViva grade averages - Works on iOS, Android, and Desktop" />
+    <meta
+      name="description"
+      content="Calculate your ClasseViva grade averages - Works on iOS, Android, and Desktop"
+    />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
     <title>CVV Average Calculator</title>
-    
+
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
     <style>
       body {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         padding: 20px 0;
       }
-      
+
       .grade-badge {
         cursor: pointer;
         transition: transform 0.2s;
       }
-      
+
       .grade-badge:hover {
         transform: scale(1.1);
       }
-      
+
       .overall-average {
         font-size: 4rem;
         font-weight: bold;
       }
-      
+
       .period-average {
         font-size: 2rem;
         font-weight: bold;
       }
-      
+
       @media (max-width: 576px) {
         .overall-average {
           font-size: 2.5rem;
@@ -63,25 +75,56 @@
             <div class="card shadow-lg">
               <div class="card-body p-4">
                 <h2 class="card-title mb-3">Login to ClasseViva</h2>
-                
+
                 <div class="alert alert-info" role="alert">
-                  <strong><i class="bi bi-phone"></i> iOS Users:</strong><br>
-                  You can add this to your home screen! Tap the Share button and select "Add to Home Screen".
+                  <strong><i class="bi bi-phone"></i> iOS Users:</strong><br />
+                  You can add this to your home screen! Tap the Share button and
+                  select "Add to Home Screen".
                 </div>
-                
-                <div id="errorMessage" class="alert alert-danger" style="display:none" role="alert"></div>
-                
+
+                <div
+                  id="errorMessage"
+                  class="alert alert-danger"
+                  style="display: none"
+                  role="alert"
+                ></div>
+
                 <form id="loginForm">
                   <div class="mb-3">
                     <label for="user_id" class="form-label">User ID:</label>
-                    <input type="text" class="form-control" id="user_id" name="user_id" required autofocus placeholder="Enter your User ID" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="user_id"
+                      name="user_id"
+                      required
+                      autofocus
+                      placeholder="Enter your User ID"
+                    />
                   </div>
                   <div class="mb-3">
                     <label for="user_pass" class="form-label">Password:</label>
-                    <input type="password" class="form-control" id="user_pass" name="user_pass" required placeholder="Enter your password" />
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="user_pass"
+                      name="user_pass"
+                      required
+                      placeholder="Enter your password"
+                    />
                   </div>
-                  <button type="submit" id="loginButton" class="btn btn-primary w-100">
-                    <span id="loginSpinner" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" style="display:none"></span>
+                  <button
+                    type="submit"
+                    id="loginButton"
+                    class="btn btn-primary w-100"
+                  >
+                    <span
+                      id="loginSpinner"
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                      style="display: none"
+                    ></span>
                     <span class="button-text">Login</span>
                   </button>
                 </form>
@@ -92,20 +135,20 @@
       </div>
 
       <!-- Grades Page -->
-      <div id="gradesPage" style="display: none;">
+      <div id="gradesPage" style="display: none">
         <div class="text-center mb-4">
           <button id="logoutButton" class="btn btn-secondary">
             <i class="bi bi-box-arrow-right"></i> Logout
           </button>
         </div>
-        
+
         <div class="card shadow-lg mb-4">
           <div class="card-body text-center">
             <h2 class="card-title">Your Grade Averages</h2>
             <div id="overallAverage" class="overall-average"></div>
           </div>
         </div>
-        
+
         <div id="gradesContent"></div>
       </div>
     </div>
@@ -116,7 +159,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Grade Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
           </div>
           <div class="modal-body">
             <p><strong>Grade:</strong> <span id="modalGrade"></span></p>
@@ -131,7 +178,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Load shared scripts -->
     <script src="../shared/config.js"></script>
     <script src="../shared/api.js"></script>

@@ -3,20 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Calculate your ClasseViva grade averages - Works on iOS, Android, and Desktop"
-    />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
     <title>CVV Average Calculator - Extension</title>
 
     <!-- Bootstrap CSS (Local) -->
     <link href="bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="bootstrap-icons.min.css" />
 
     <style>
       body {
@@ -58,8 +48,8 @@
     <div class="container">
       <!-- Header -->
       <div class="text-center text-white mb-4">
-        <h1 class="display-5 fw-bold">CVV Average Calculator</h1>
-        <p class="lead">Web Version - Works on iOS, Android & Desktop</p>
+        <h1 class="display-5 fw-bold">📊 CVV Average Calculator</h1>
+        <p class="lead">Browser Extension - 100% Client-Side</p>
       </div>
 
       <!-- Login Page -->
@@ -70,17 +60,11 @@
               <div class="card-body p-4">
                 <h2 class="card-title mb-3">Login to ClasseViva</h2>
 
-                <div class="alert alert-info" role="alert">
-                  <strong><i class="bi bi-phone"></i> iOS Users:</strong><br />
-                  You can add this to your home screen! Tap the Share button and
-                  select "Add to Home Screen".
-                </div>
-
                 <div
                   id="errorMessage"
                   class="alert alert-danger"
                   style="display: none"
-                  role="alert"
+                ></div>
                 ></div>
 
                 <form id="loginForm">
@@ -129,10 +113,10 @@
       </div>
 
       <!-- Grades Page -->
-      <div id="gradesPage" style="display: none;">
+      <div id="gradesPage" style="display: none">
         <div class="text-center mb-4">
           <button id="logoutButton" class="btn btn-secondary">
-            <i class="bi bi-box-arrow-right"></i> Logout
+            ← Logout
           </button>
         </div>
 
