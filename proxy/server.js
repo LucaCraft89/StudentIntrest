@@ -26,6 +26,29 @@ app.get("/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
+// Retry fetch with exponential backoff for DNS failures
+async function fetchWithRetry(url, options, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fetch(url, options);
+    } catch (error) {
+      const isDnsError =
+        error.cause?.code === "EAI_AGAIN" || error.cause?.code === "ENOTFOUND";
+
+      if (isDnsError && attempt < maxRetries) {
+        const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
+        console.log(
+          `DNS error, retrying in ${delay}ms (attempt ${attempt}/${maxRetries})...`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        continue;
+      }
+
+      throw error;
+    }
+  }
+}
+
 // Proxy all requests to Spaggiari API
 app.all("*", async (req, res) => {
   const endpoint = req.path;
@@ -46,12 +69,11 @@ app.all("*", async (req, res) => {
   }
 
   try {
-    const response = await fetch(targetUrl, {
+    const response = await fetchWithRetry(targetUrl, {
       method: req.method,
       headers: headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
-      // Add DNS and connection options for Docker
-      signal: AbortSignal.timeout(10000), // 10 second timeout
+      signal: AbortSignal.timeout(15000), // 15 second timeout for retries
     });
 
     const data = await response.json();

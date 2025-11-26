@@ -1,5 +1,31 @@
 // UI functions using Bootstrap
 
+// Session management
+const SESSION_KEY = "cvv_session";
+
+function saveSession(userId, token, studentId) {
+  const session = { userId, token, studentId, timestamp: Date.now() };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+}
+
+function getSession() {
+  const sessionData = localStorage.getItem(SESSION_KEY);
+  if (!sessionData) return null;
+
+  const session = JSON.parse(sessionData);
+  // Session expires after 24 hours
+  const expirationTime = 24 * 60 * 60 * 1000;
+  if (Date.now() - session.timestamp > expirationTime) {
+    clearSession();
+    return null;
+  }
+  return session;
+}
+
+function clearSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
+
 // Get Bootstrap color class based on grade
 function getColorClass(value) {
   if (value < 5) return "danger";
@@ -35,66 +61,77 @@ function displayGrades(gradesAvr) {
 
     // Period title and average
     const periodHeader = document.createElement("div");
-    periodHeader.className =
-      "d-flex justify-content-between align-items-center mb-3";
+    periodHeader.className = "mb-3 pb-3 border-bottom";
     periodHeader.innerHTML = `
-      <h5 class="card-title mb-0">Period ${period}</h5>
+      <h5 class="card-title mb-2">Period ${period}</h5>
       <span class="badge bg-${getColorClass(
         periodAvr
-      )} period-average">${periodAvr.toFixed(1)}</span>
+      )} fs-6">Period Average: ${periodAvr.toFixed(1)}</span>
     `;
     cardBody.appendChild(periodHeader);
 
-    // Subjects
+    // Subjects container with responsive grid
+    const subjectsContainer = document.createElement("div");
+    subjectsContainer.className = "row g-3";
+
     for (const subject in subjects) {
       if (subject === "period_avr") continue;
 
       const data = subjects[subject];
 
-      const subjectDiv = document.createElement("div");
-      subjectDiv.className = "mb-3 p-3 bg-light rounded";
+      // Each subject is its own responsive card
+      const subjectCol = document.createElement("div");
+      subjectCol.className = "col-12 col-md-6 col-lg-4";
+
+      const subjectCard = document.createElement("div");
+      subjectCard.className = "card h-100";
+
+      const subjectCardBody = document.createElement("div");
+      subjectCardBody.className = "card-body";
 
       // Subject name
       const subjectName = document.createElement("h6");
-      subjectName.className = "mb-2";
+      subjectName.className = "card-subtitle mb-3 text-muted";
       subjectName.textContent = subject;
-      subjectDiv.appendChild(subjectName);
+      subjectCardBody.appendChild(subjectName);
 
       // Grades badges
       const gradesDiv = document.createElement("div");
-      gradesDiv.className = "mb-2";
+      gradesDiv.className = "mb-3";
       data.grades.forEach((grade) => {
         const badge = document.createElement("span");
         badge.className = `badge bg-${getColorClass(
           grade.decimalValue
-        )} grade-badge me-1`;
+        )} me-1 mb-1`;
         badge.textContent = grade.decimalValue;
         badge.style.cursor = "pointer";
         badge.onclick = () => showGradeModal(grade);
         gradesDiv.appendChild(badge);
       });
-      subjectDiv.appendChild(gradesDiv);
+      subjectCardBody.appendChild(gradesDiv);
 
-      // Average and needed grade
-      const avgRow = document.createElement("div");
-      avgRow.className = "d-flex gap-2 flex-wrap";
-
-      const avgBadge = document.createElement("span");
-      avgBadge.className = `badge bg-${getColorClass(data.avr)} fs-6`;
+      // Average badge - full width
+      const avgBadge = document.createElement("div");
+      avgBadge.className = `alert alert-${getColorClass(
+        data.avr
+      )} mb-2 py-2 text-center fw-bold`;
       avgBadge.textContent = `Average: ${data.avr.toFixed(1)}`;
-      avgRow.appendChild(avgBadge);
+      subjectCardBody.appendChild(avgBadge);
 
+      // Needed grade badge - full width
       if (data.neededFor6 !== null) {
-        const neededBadge = document.createElement("span");
-        neededBadge.className = "badge bg-info fs-6";
+        const neededBadge = document.createElement("div");
+        neededBadge.className = "alert alert-info mb-0 py-2 text-center";
         neededBadge.textContent = `Need: ${data.neededFor6.toFixed(1)} for 6.0`;
-        avgRow.appendChild(neededBadge);
+        subjectCardBody.appendChild(neededBadge);
       }
 
-      subjectDiv.appendChild(avgRow);
-      cardBody.appendChild(subjectDiv);
+      subjectCard.appendChild(subjectCardBody);
+      subjectCol.appendChild(subjectCard);
+      subjectsContainer.appendChild(subjectCol);
     }
 
+    cardBody.appendChild(subjectsContainer);
     periodCard.appendChild(cardBody);
     gradesContent.appendChild(periodCard);
   }
@@ -126,6 +163,7 @@ function showGradesPage() {
 
 // Logout function
 function logout() {
+  clearSession();
   showLoginPage();
   document.getElementById("loginForm").reset();
   hideError();
@@ -144,8 +182,38 @@ function showGradeModal(grade) {
   modal.show();
 }
 
+// Load grades from session
+async function loadFromSession() {
+  const session = getSession();
+  if (!session) return false;
+
+  try {
+    // Get grades using saved token
+    const grades = await getGrades(session.studentId, session.token);
+
+    // Calculate averages
+    const gradesAvr = calculateAverages(grades);
+
+    // Display grades
+    displayGrades(gradesAvr);
+
+    // Show grades page
+    showGradesPage();
+    return true;
+  } catch (error) {
+    console.error("Session expired or invalid:", error);
+    clearSession();
+    return false;
+  }
+}
+
 // Initialize UI event listeners
 function initializeUI() {
+  // Try to load from session on page load
+  loadFromSession().catch((err) =>
+    console.error("Failed to load session:", err)
+  );
+
   // Handle form submission
   document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -177,6 +245,9 @@ function initializeUI() {
 
       // Calculate averages
       const gradesAvr = calculateAverages(grades);
+
+      // Save session
+      saveSession(userId, token, studentId);
 
       // Display grades
       displayGrades(gradesAvr);
