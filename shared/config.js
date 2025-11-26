@@ -3,7 +3,9 @@ const ENV = {
   isExtension:
     typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.id,
   // Set this to your proxy URL when deploying the website
-  proxyUrl: "https://your-worker.your-subdomain.workers.dev",
+  // For Docker: http://localhost:3000 (or your server IP/domain)
+  // For Cloudflare Workers: https://your-worker.workers.dev
+  proxyUrl: "http://localhost:3000",
 };
 
 // API Configuration

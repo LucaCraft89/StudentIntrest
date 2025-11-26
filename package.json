@@ -5,9 +5,14 @@
     "scripts": {
         "dev:web": "cd web && python3 -m http.server 8080",
         "dev:proxy": "cd proxy && wrangler dev",
+        "dev:proxy-node": "cd proxy && npm install && npm run dev",
         "deploy:proxy": "cd proxy && wrangler deploy",
         "build:extension": "npm run copy:extension",
         "copy:extension": "cp -r shared/* browser-extension/ && echo 'Extension files updated'",
+        "docker:up": "docker-compose up -d",
+        "docker:down": "docker-compose down",
+        "docker:logs": "docker-compose logs -f",
+        "docker:build": "docker-compose up -d --build",
         "lint": "echo 'No linting configured yet'",
         "test": "echo 'No tests configured yet'"
     },

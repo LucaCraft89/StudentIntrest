@@ -1,0 +1,81 @@
+version: "3.8"
+
+services:
+  # Proxy service for CORS bypass
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    container_name: cvv-proxy
+    restart: unless-stopped
+    ports:
+      - "${PROXY_PORT:-3000}:3000"
+    environment:
+      - PORT=3000
+      - API_KEY=${API_KEY:-Tg1NWEwNGIgIC0K}
+      - CORS_ORIGIN=${CORS_ORIGIN:-*}
+      - NODE_ENV=production
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://localhost:3000/health').then(r => r.ok ? process.exit(0) : process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - cvv-network
+
+  # Web application
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    container_name: cvv-web
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    depends_on:
+      proxy:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost/health",
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - cvv-network
+
+  # Optional: Nginx reverse proxy (if you want everything on one domain)
+  nginx:
+    image: nginx:alpine
+    container_name: cvv-nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - web
+      - proxy
+    networks:
+      - cvv-network
+    profiles:
+      - with-proxy
+
+networks:
+  cvv-network:
+    driver: bridge

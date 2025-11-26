@@ -32,7 +32,32 @@ Calculate your ClasseViva grade averages on **any platform**: browser extension 
 
 ## 🚀 Quick Start
 
-### For Users
+### Option 1: Docker (Recommended for Self-Hosting)
+
+```bash
+cp .env.example .env
+docker-compose up -d
+```
+
+Access at http://localhost:8080
+
+See [DOCKER.md](DOCKER.md) for full documentation and scaling options.
+
+### Option 2: Cloudflare Workers (Serverless)
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed setup.
+
+---
+
+## 📖 Documentation
+
+- **[QUICKSTART.md](QUICKSTART.md)** - Get running in 5 minutes
+- **[DOCKER.md](DOCKER.md)** - Docker deployment, scaling, and production setup
+- **[proxy/README.md](proxy/README.md)** - Proxy configuration options
+
+---
+
+## For Users
 
 **Browser Extension:**
 

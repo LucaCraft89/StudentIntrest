@@ -2,7 +2,25 @@
 
 Get your ClasseViva calculator running on iOS in 5 minutes.
 
-## Step 1: Deploy the Proxy
+## Option 1: Docker (Easiest - Recommended)
+
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Start everything
+docker-compose up -d
+
+# Access at http://localhost:8080
+```
+
+Done! See [DOCKER.md](DOCKER.md) for advanced configuration.
+
+---
+
+## Option 2: Cloudflare Workers (Serverless)
+
+### Step 1: Deploy the Proxy
 
 ```bash
 npm install -g wrangler
@@ -13,7 +31,7 @@ wrangler deploy
 
 Copy the URL shown (e.g., `https://spaggiari-proxy.yourname.workers.dev`)
 
-## Step 2: Update Config
+### Step 2: Update Config
 
 Edit `shared/config.js`:
 
@@ -25,7 +43,7 @@ const ENV = {
 };
 ```
 
-## Step 3: Deploy Website
+### Step 3: Deploy Website
 
 Push to GitHub, then:
 
@@ -34,7 +52,7 @@ Push to GitHub, then:
 3. Select main branch and `/web` folder
 4. Done! Access at `https://yourname.github.io/StudentIntrest/`
 
-## Step 4: iOS Users
+### Step 4: iOS Users
 
 1. Open the website in Safari
 2. Tap Share → "Add to Home Screen"
