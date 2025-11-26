@@ -209,16 +209,16 @@ async function loadFromSession() {
 
 // Initialize UI event listeners
 function initializeUI() {
-  // Clear any URL parameters (from context menu actions)
-  if (window.location.search) {
-    console.log('[Init] Clearing URL parameters');
-    window.history.replaceState({}, document.title, window.location.pathname);
-  }
-
   // Try to load from session on page load
   loadFromSession().catch((err) =>
     console.error("Failed to load session:", err)
   );
+
+  // Logout button event listener
+  const logoutButton = document.getElementById("logoutButton");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", logout);
+  }
 
   // Handle form submission
   document.getElementById("loginForm").addEventListener("submit", async (e) => {

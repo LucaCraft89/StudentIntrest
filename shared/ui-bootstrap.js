@@ -214,6 +214,12 @@ function initializeUI() {
     console.error("Failed to load session:", err)
   );
 
+  // Logout button event listener
+  const logoutButton = document.getElementById("logoutButton");
+  if (logoutButton) {
+    logoutButton.addEventListener("click", logout);
+  }
+
   // Handle form submission
   document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
