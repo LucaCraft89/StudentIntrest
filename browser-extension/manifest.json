@@ -10,14 +10,17 @@
     "host_permissions": [
         "https://web.spaggiari.eu/*"
     ],
-    "content_security_policy": {
-        "extension_pages": "script-src 'self' https://cdn.jsdelivr.net; object-src 'self'"
-    },
     "action": {
         "default_title": "CVV Average Calculator"
     },
     "background": {
         "service_worker": "background.js"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "cvv-calculator@lucacraft.dev",
+            "strict_min_version": "109.0"
+        }
     },
     "declarative_net_request": {
         "rule_resources": [

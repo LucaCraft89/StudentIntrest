@@ -1,0 +1,15 @@
+/* Bootstrap Icons Emoji Fallback for Extensions */
+.bi-box-arrow-right::before {
+  content: "←";
+  font-style: normal;
+}
+
+.bi-calculator-fill::before {
+  content: "📊";
+  font-style: normal;
+}
+
+.bi-phone::before {
+  content: "📱";
+  font-style: normal;
+}
